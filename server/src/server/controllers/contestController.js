@@ -1,5 +1,5 @@
 const db = require('../models/index');
-import ServerError from '../errors/ServerError';
+const ServerError = require('../errors/ServerError');
 
 const contestQueries = require('./queries/contestQueries');
 const userQueries = require('./queries/userQueries');
