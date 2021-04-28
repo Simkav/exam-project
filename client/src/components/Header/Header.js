@@ -3,21 +3,21 @@ import styles from './Header.module.sass';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import CONSTANTS from '../../constants';
-import {getUserAction, clearUserStore, headerRequest} from '../../actions/actionCreator';
+import { getUserAction, clearUserStore, headerRequest } from '../../actions/actionCreator';
 
 
-class Header extends React.Component{
-  componentDidMount () {
-    if ( !this.props.data) {
-      this.props.getUser();
+class Header extends React.Component {
+    componentDidMount() {
+        if (!this.props.data) {
+            this.props.getUser();
+        }
     }
-  }
 
-  logOut = () => {
-    localStorage.clear();
-    this.props.clearUserStore();
-    this.props.history.replace('/login');
-  };
+    logOut = () => {
+        localStorage.clear();
+        this.props.clearUserStore();
+        this.props.history.replace('/login');
+    };
 
     startContests = () => {
         this.props.history.push('/startContest');
@@ -34,11 +34,12 @@ class Header extends React.Component{
                         <img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
                         <ul>
                             <li><Link to='/dashboard'
-                                      style={{textDecoration: 'none'}}><span>View Dashboard</span></Link></li>
-                            <li><Link to='/account' style={{textDecoration: 'none'}}><span>My Account</span></Link></li>
+                                      style={{ textDecoration: 'none' }}><span>View Dashboard</span></Link></li>
+                            <li><Link to='/account' style={{ textDecoration: 'none' }}><span>My Account</span></Link>
+                            </li>
                             <li><Link to='http:/www.google.com'
-                                      style={{textDecoration: 'none'}}><span>Messages</span></Link></li>
-                            <li><Link to='http:/www.google.com' style={{textDecoration: 'none'}}><span>Affiliate Dashboard</span></Link>
+                                      style={{ textDecoration: 'none' }}><span>Messages</span></Link></li>
+                            <li><Link to='http:/www.google.com' style={{ textDecoration: 'none' }}><span>Affiliate Dashboard</span></Link>
                             </li>
                             <li><span onClick={this.logOut}>Logout</span></li>
                         </ul>
@@ -49,9 +50,10 @@ class Header extends React.Component{
         } else {
             return (
                 <>
-                    <Link to='/login' style={{textDecoration: 'none'}}><span className={styles.btn}>LOGIN</span></Link>
-                    <Link to='/registration' style={{textDecoration: 'none'}}><span
-                        className={styles.btn}>SIGN UP</span></Link>
+                    <Link to='/login' className={styles.btn} style={{ textDecoration: 'none' }}><span
+                    >LOGIN</span></Link>
+                    <Link to='/registration' className={styles.btn} style={{ textDecoration: 'none' }}><span
+                    >SIGN UP</span></Link>
                 </>
             )
         }
@@ -69,15 +71,18 @@ class Header extends React.Component{
                 </div>
                 <div className={styles.loginSignnUpHeaders}>
                     <div className={styles.numberContainer}>
-                        <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt='phone'/>
-                        <span>(877)&nbsp;355-3585</span>
+                        <a className={styles.btn} href={`tel:${CONSTANTS.SQUADHELP_PHONE_NUMBER}`}>
+                            <img src={`${CONSTANTS.STATIC_IMAGES_PATH}phone.png`} alt='phone'/>
+                            <span>{CONSTANTS.SQUADHELP_PHONE_NUMBER}</span>
+                        </a>
                     </div>
                     <div className={styles.userButtonsContainer}>
                         {this.renderLoginButtons()}
                     </div>
                 </div>
                 <div className={styles.navContainer}>
-                    <img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo} alt='blue_logo'/>
+                    <Link to="/"><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo}
+                                      alt='blue_logo'/></Link>
                     <div className={styles.leftNav}>
                         <div className={styles.nav}>
                             <ul>
@@ -157,13 +162,15 @@ class Header extends React.Component{
 }
 
 const mapStateToProps = (state) => {
-  return state.userStore;
-};
+        return state.userStore;
+    }
+;
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getUser: () => dispatch(headerRequest()),
-    clearUserStore: () => dispatch(clearUserStore()),
-  };
-};
+        return {
+            getUser: () => dispatch(headerRequest()),
+            clearUserStore: () => dispatch(clearUserStore()),
+        };
+    }
+;
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
