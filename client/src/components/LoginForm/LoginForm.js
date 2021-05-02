@@ -1,81 +1,95 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { authActionLogin, clearAuth } from '../../actions/actionCreator';
-import { Redirect } from 'react-router-dom';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import styles from './LoginForm.module.sass';
-import { Field, reduxForm } from 'redux-form';
-import FormInput from '../FormInput/FormInput';
-import customValidator from '../../validators/validator';
-import Schems from '../../validators/validationSchems';
-import Error from '../../components/Error/Error';
+import Schemas from '../../validators/validationSchems';
+import Error from "../Error/Error";
 
-class LoginForm extends React.Component{
-
-  componentWillUnmount () {
-    this.props.authClear();
-  }
-
-  clicked = (values) => {
-    this.props.loginRequest(values);
-  };
-
-  render () {
-    const {error, isFetching} = this.props.auth;
-    const {handleSubmit, submitting, authClear} = this.props;
-
-    const formInputClasses = {
-      container: styles.inputContainer,
-      input: styles.input,
-      warning: styles.fieldWarning,
-      notValid: styles.notValid,
-      valid: styles.valid,
-    };
-
-    return (
-      <div className={ styles.loginForm }>
-        { error && <Error data={ error.data } status={ error.status }
-                          clearError={ authClear }/> }
-        <h2>LOGIN TO YOUR ACCOUNT</h2>
-        <form onSubmit={ handleSubmit(this.clicked) }>
-          <Field
-            name='email'
-            classes={ formInputClasses }
-            component={ FormInput }
-            type='text'
-            label='Email Address'
-          />
-          <Field
-            name='password'
-            classes={ formInputClasses }
-            component={ FormInput }
-            type='password'
-            label='password'
-          />
-          <button type='submit' disabled={ submitting }
-                  className={ styles.submitContainer }>
-            <span className={ styles.inscription }>{ isFetching
-              ? 'Submitting...'
-              : 'LOGIN' }</span>
-          </button>
-        </form>
-      </div>
-    );
-  }
+const initialValues = {
+    'email': '',
+    "password": ''
 }
+const classes = {
+    container: styles.inputContainer,
+    input: styles.input,
+    inValid: styles.inValid,
+    valid: styles.valid,
+    btnSubmit: styles.submitContainer,
+    error: styles.errorMessage,
+    signUpInfo: styles.signUpInfo,
+    label: styles.label,
+    form: styles.loginForm
+};
 
+const LoginForm = props => {
+
+    const { loginRequest, authClear, auth: { error, isFetching } } = props;
+    useEffect(() => {
+        return () => {
+            authClear()
+        }
+    })
+    const onSubmit = (values, formikBag) => {
+        loginRequest(values)
+        formikBag.resetForm();
+    }
+    return (
+        <Formik
+            initialValues={initialValues}
+            validationSchema={Schemas.LoginSchem}
+            onSubmit={onSubmit}
+        >{formProps => {
+            return (
+                <div className={classes.form}>
+                    {error && <Error data={error.data} status={error.status}
+                                     clearError={authClear}/>}
+                    <h2 className={classes.signUpInfo}>LOGIN TO YOUR ACCOUNT</h2>
+                    <Form className={classes.container}>
+                        <label className={classes.label}>
+                            <Field
+                                type='text'
+                                name='email'
+                                placeholder='Email'
+                                className={classes.input}
+                            />
+                            <ErrorMessage
+                                name='email'
+                                component='div'
+                                className={classes.error}
+                            />
+                        </label>
+                        <label className={classes.label}>
+                            <Field
+                                type='password'
+                                name='password'
+                                placeholder='password'
+                                className={classes.input}
+                            />
+                            <ErrorMessage
+                                name='password'
+                                component='div'
+                                className={classes.error}
+                            />
+                        </label>
+                        <button type='submit' className={classes.btnSubmit}>
+                            {isFetching ? "Loading..." : "Login"}
+                        </button>
+                    </Form>
+                </div>)
+        }}</Formik>
+    )
+}
 const mapStateToProps = (state) => {
-  const {auth} = state;
-  return {auth};
+    const { auth } = state;
+    return { auth };
 };
 
 const mapDispatchToProps = (dispatch) => (
-  {
-    loginRequest: (data) => dispatch(authActionLogin(data)),
-    authClear: () => dispatch(clearAuth()),
-  }
+    {
+        loginRequest: (data) => dispatch(authActionLogin(data)),
+        authClear: () => dispatch(clearAuth()),
+    }
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
-  form: 'login',
-  validate: customValidator(Schems.LoginSchem),
-})(LoginForm));
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

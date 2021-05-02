@@ -15,18 +15,18 @@
     align-items: center
     background-color: #28d2d0
     height: 64px
-    margin-left: 20px
     padding: 0
     border: 0
-    width: fill-available
-    margin-right: 20px
     @media(max-width: 850px)
       align-self: auto
 
-
-  .inscription
-    font-size: 16px
+  .signUpInfo
+    font-size: 2rem
     color: white
+    font-weight: 600
+    letter-spacing: 0px
+    text-align: center
+
 
   .inputContainer
     display: flex
@@ -36,20 +36,8 @@
     margin-right: 20px
     margin-left: 20px
 
-    .fieldWarning
-      font-size: 15px
-      display: flex
-      flex-direction: row
-      justify-content: center
-      align-items: center
-      color: white
-      border: 1px solid #b72522
-      margin-bottom: 15px
-      padding-bottom: 5px
-      padding-top: 5px
-      text-align: center
-
     .input
+      width: 100%
       background-color: white
       border: none
       border-radius: 4px
@@ -62,44 +50,43 @@
       @media(max-width: 1400px)
         align-self: normal
 
-    .notValid
-      border: 2px solid red !important
+  .label
+    position: relative
+    display: flex
+    flex-grow: 1
+
+    .inValid
+      border-bottom-color: red !important
 
     .valid
-      border: 2px solid green
+      border-color: green
 
+    .errorMessage
+      font: 400 0.85rem/1.25 'Gotham', sans-serif
+      color: white
+      background-color: red
+      position: absolute
+      right: 0
+      left: 8px
+      top: 100%
+      width: 95%
+      margin-top: -8px
+      padding: 6px 7px
+      z-index: 10
+      border-radius: 4px
+      box-shadow: 0 0 25px 5px rgba(0, 0, 0, 0.25)
 
-  .error
-    align-self: stretch
-    margin-right: 40px
-    margin-left: 40px
-    background: red
-    color: white
-    font-size: 17px
-    letter-spacing: 0.6px
-    border: 1px solid white
-    border-radius: 8px
-    text-align: center
-    padding-right: 30px
-    padding-left: 30px
-    padding-top: 20px
-    padding-bottom: 20px
-    margin-top: 15px
-    margin-bottom: 20px
-
-
-  .errorValid
-    font-size: 14px
-    text-align: center
-    border: 1px solid red
-    align-self: stretch
-    margin-left: 20px
-    margin-right: 20px
-    color: white
-    padding-top: 6px
-    padding-bottom: 6px
-    margin-top: 5px
-    margin-bottom: 15px
+      &:before
+        position: absolute
+        left: 24px
+        top: -12px
+        width: 0
+        height: 0
+        border-style: solid
+        border-width: 0 18px 12px 18px
+        border-color: transparent transparent red transparent
+        @media(max-width: 850px)
+          left: 1px
 
   h2
     text-align: center
