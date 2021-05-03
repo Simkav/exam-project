@@ -9,7 +9,6 @@ import { clearErrorSignUpAndLogin } from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
 
 const RegistrationPage = (props) => {
-  props.clearError();
 
   const changeRoute = () => {
     props.history.replace('/');
@@ -157,10 +156,5 @@ const RegistrationPage = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    clearError: () => dispatch(clearErrorSignUpAndLogin()),
-  };
-};
 
-export default connect(null, mapDispatchToProps)(RegistrationPage);
+export default connect(null,null)(RegistrationPage);
