@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { authActionLogin, clearAuth } from '../../actions/actionCreator';
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux'
+import * as ActionCreators from '../../actions/actionCreator';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import styles from './LoginForm.module.sass';
 import Schemas from '../../validators/validationSchems';
@@ -23,15 +24,16 @@ const classes = {
 };
 
 const LoginForm = props => {
-
-    const { loginRequest, authClear, auth: { error, isFetching } } = props;
+    const dispatch = useDispatch()
+    const { isFetching, error } = useSelector(({ auth }) => auth)
+    const { authActionLogin, clearAuth } = bindActionCreators(ActionCreators, dispatch)
     useEffect(() => {
         return () => {
-            authClear()
+            clearAuth()
         }
     })
     const onSubmit = (values, formikBag) => {
-        loginRequest(values)
+        authActionLogin(values)
         formikBag.resetForm();
     }
     return (
@@ -43,7 +45,7 @@ const LoginForm = props => {
             return (
                 <div className={classes.form}>
                     {error && <Error data={error.data} status={error.status}
-                                     clearError={authClear}/>}
+                                     clearError={clearAuth}/>}
                     <h2 className={classes.signUpInfo}>LOGIN TO YOUR ACCOUNT</h2>
                     <Form className={classes.container}>
                         <label className={classes.label}>
@@ -80,16 +82,5 @@ const LoginForm = props => {
         }}</Formik>
     )
 }
-const mapStateToProps = (state) => {
-    const { auth } = state;
-    return { auth };
-};
 
-const mapDispatchToProps = (dispatch) => (
-    {
-        loginRequest: (data) => dispatch(authActionLogin(data)),
-        authClear: () => dispatch(clearAuth()),
-    }
-);
-
-export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
+export default LoginForm;
