@@ -22,7 +22,6 @@ const classes = {
     label: styles.label,
     form: styles.loginForm
 };
-
 const LoginForm = props => {
     const dispatch = useDispatch()
     const { isFetching, error } = useSelector(({ auth }) => auth)
@@ -31,7 +30,7 @@ const LoginForm = props => {
         return () => {
             clearAuth()
         }
-    })
+    }, [])
     const onSubmit = (values) => {
         authActionLogin(values)
     }
