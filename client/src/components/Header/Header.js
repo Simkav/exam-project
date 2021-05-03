@@ -3,7 +3,7 @@ import styles from './Header.module.sass';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import CONSTANTS from '../../constants';
-import { getUserAction, clearUserStore, headerRequest } from '../../actions/actionCreator';
+import {clearUserStore, headerRequest} from '../../actions/actionCreator';
 
 
 class Header extends React.Component {
@@ -162,9 +162,8 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-        return state.userStore;
-    }
-;
+  return state.auth;
+};
 const mapDispatchToProps = (dispatch) => {
         return {
             getUser: () => dispatch(headerRequest()),

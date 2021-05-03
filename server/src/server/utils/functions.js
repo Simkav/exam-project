@@ -3,36 +3,36 @@ const CONSTANTS = require('../../constants');
 
 module.exports.createWhereForAllContests = (
   typeIndex, contestId, industry, awardSort) => {
-  let object = {
+  const option = {
     where: {},
-    order: [],
+    order: []
   };
   if (typeIndex) {
-    Object.assign(object.where, { contestType: getPredicateTypes(typeIndex) });
+    Object.assign(option.where, { contestType: getPredicateTypes(typeIndex) });
   }
   if (contestId) {
-    Object.assign(object.where, { id: contestId });
+    Object.assign(option.where, { id: contestId });
   }
   if (industry) {
-    Object.assign(object.where, { industry: industry });
+    Object.assign(option.where, { industry: industry });
   }
   if (awardSort) {
-    object.order.push(['prize', awardSort]);
+    option.order.push(['prize', awardSort]);
   }
-  Object.assign(object.where, {
+  Object.assign(option.where, {
     status: {
-      [ bd.Sequelize.Op.or ]: [
-        CONSTANTS.CONTEST_STATUS_FINISHED,
-        CONSTANTS.CONTEST_STATUS_ACTIVE,
-      ],
-    },
+      [bd.Sequelize.Op.or]: [
+        CONSTANTS.CONTESTS_STATUSES.FINISHED,
+        CONSTANTS.CONTESTS_STATUSES.ACTIVE
+      ]
+    }
   });
-  object.order.push(['id', 'desc']);
-  return object;
+  option.order.push(['id', 'desc']);
+  return option;
 };
 
 function getPredicateTypes (index) {
-  return { [ bd.Sequelize.Op.or ]: [types[ index ].split(',')] };
+  return { [bd.Sequelize.Op.or]: [types[index].split(',')] };
 }
 
 const types = [

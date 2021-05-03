@@ -4,123 +4,114 @@ const ServerError = require('../errors/ServerError');
 const CONSTANTS = require('../../constants');
 
 module.exports.parseBody = (req, res, next) => {
-    const { body: { contests: reqContests } } = req
-    const contests = JSON.parse(reqContests)
-    for (let i = 0; i < contests.length; i++) {
-        if (contests[i].haveFile) {
-            const file = req.files.splice(0, 1);
-            contests[i].fileName = file[0].filename;
-            contests[i].originalFileName = file[0].originalname;
-        }
+  req.body.contests = JSON.parse(req.body.contests);
+  for (let i = 0; i < req.body.contests.length; i++) {
+    if (req.body.contests[i].haveFile) {
+      const file = req.files.splice(0, 1);
+      req.body.contests[i].fileName = file[0].filename;
+      req.body.contests[i].originalFileName = file[0].originalname;
     }
-    next();
+  }
+  next();
 };
 
 module.exports.canGetContest = async (req, res, next) => {
-    const { tokenData: { role, userId }, headers: { contestid } } = req
-    let result = null;
-    try {
-        if (role === CONSTANTS.CUSTOMER) {
-            result = await bd.Contests.findOne({
-                where: { id: contestid, userId },
-            });
-        } else if (role === CONSTANTS.CREATOR) {
-            result = await bd.Contests.findOne({
-                where: {
-                    id: contestid,
-                    status: {
-                        [bd.Sequelize.Op.or]: [
-                            CONSTANTS.CONTEST_STATUS_ACTIVE,
-                            CONSTANTS.CONTEST_STATUS_FINISHED,
-                        ],
-                    },
-                },
-            });
+  let result = null;
+  console.log(req.tokenData);
+  try {
+    if (req.tokenData.role === CONSTANTS.ROLES.CUSTOMER) {
+      result = await bd.Contest.findOne({
+        where: { id: req.headers.contestid, userId: req.tokenData.userId }
+      });
+    } else if (req.tokenData.role === CONSTANTS.ROLES.CREATOR) {
+      result = await bd.Contest.findOne({
+        where: {
+          id: req.headers.contestid,
+          status: {
+            [bd.Sequelize.Op.or]: [
+              CONSTANTS.CONTESTS_STATUSES.ACTIVE,
+              CONSTANTS.CONTESTS_STATUSES.FINISHED
+            ]
+          }
         }
-        !!result ? next() : next(new RightsError());
-    } catch (e) {
-        next(new ServerError(e));
+      });
     }
+    result ? next() : next(new RightsError());
+  } catch (err) {
+    console.log(err);
+    next(new ServerError(e));
+  }
 };
 
 module.exports.onlyForCreative = (req, res, next) => {
-    const { tokenData: { role } } = req
-    if (role === CONSTANTS.CUSTOMER) {
-        next(new RightsError());
-    } else {
-        next();
-    }
-
+  if (req.tokenData.role === CONSTANTS.ROLES.CUSTOMER) {
+    next(new RightsError());
+  } else {
+    next();
+  }
 };
 
 module.exports.onlyForCustomer = (req, res, next) => {
-    const { tokenData: { role } } = req
-    if (role === CONSTANTS.CREATOR) {
-        return next(new RightsError('this page only for customers'));
-    } else {
-        next();
-    }
+  if (req.tokenData.role === CONSTANTS.ROLES.CREATOR) {
+    return next(new RightsError('this page only for customers'));
+  } else {
+    next();
+  }
 };
 
 module.exports.canSendOffer = async (req, res, next) => {
-    try {
-        const { tokenData: { role }, body: { contestId: id } } = req
-        if (role === CONSTANTS.CUSTOMER) {
-            return next(new RightsError());
-        }
-        const result = await bd.Contests.findOne({
-            where: {
-                id,
-            },
-            attributes: ['status'],
-        });
-        if (result.get({ plain: true }).status ===
-            CONSTANTS.CONTEST_STATUS_ACTIVE) {
-            next();
-        } else {
-            return next(new RightsError());
-        }
-    } catch (e) {
-        next(new ServerError());
+  if (req.tokenData.role === CONSTANTS.ROLES.CUSTOMER) {
+    return next(new RightsError());
+  }
+  try {
+    const contest = await bd.Contest.findOne({
+      where: {
+        id: req.body.contestId
+      },
+      attributes: ['status']
+    });
+    if (contest.get('status') === CONSTANTS.CONTESTS_STATUSES.ACTIVE) {
+      next();
+    } else {
+      return next(new RightsError());
     }
-
+  } catch (e) {
+    next(new ServerError());
+  }
 };
 
 module.exports.onlyForCustomerWhoCreateContest = async (req, res, next) => {
-    try {
-        const { tokenData: { userId }, body: { contestId: id } } = req
-        const result = await bd.Contests.findOne({
-            where: {
-                userId,
-                id,
-                status: CONSTANTS.CONTEST_STATUS_ACTIVE,
-            },
-        });
-        if (!result) {
-            return next(new RightsError());
-        }
-        next();
-    } catch (e) {
-        next(new ServerError());
+  try {
+    const result = await bd.Contest.findOne({
+      where: {
+        userId: req.tokenData.userId,
+        id: req.body.contestId,
+        status: CONSTANTS.CONTESTS_STATUSES.ACTIVE
+      }
+    });
+    if (!result) {
+      return next(new RightsError());
     }
+    next();
+  } catch (e) {
+    next(new ServerError());
+  }
 };
 
 module.exports.canUpdateContest = async (req, res, next) => {
-    try {
-        const { tokenData: { userId }, body: { contestId: id } } = req
-        const result = bd.Contests.findOne({
-            where: {
-                userId,
-                id,
-                status: { [bd.Sequelize.Op.not]: CONSTANTS.CONTEST_STATUS_FINISHED },
-            },
-        });
-        if (!result) {
-            return next(new RightsError());
-        }
-        next();
-    } catch (e) {
-        next(new ServerError());
+  try {
+    const result = bd.Contest.findOne({
+      where: {
+        userId: req.tokenData.userId,
+        id: req.body.contestId,
+        status: { [bd.Sequelize.Op.not]: CONSTANTS.CONTESTS_STATUSES.FINISHED }
+      }
+    });
+    if (!result) {
+      return next(new RightsError());
     }
+    next();
+  } catch (e) {
+    next(new ServerError());
+  }
 };
-

@@ -1,93 +1,99 @@
 'use strict';
+const { CONTEST_TYPES, CONTESTS_STATUSES } = require('../../constants');
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('Contests', {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      contestType: {
-        allowNull: false,
-        type: Sequelize.ENUM('name', 'tagline', 'logo'),
-      },
-      fileName: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      originalFileName: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      title: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      typeOfName: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      industry: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      focusOfWork: {
-        allowNull: true,
-        type: Sequelize.TEXT,
-      },
-      targetCustomer: {
-        allowNull: true,
-        type: Sequelize.TEXT,
-      },
-      styleName: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      nameVenture: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      typeOfTagline: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      status: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      brandStyle: {
-        allowNull: true,
-        type: Sequelize.STRING,
-      },
-      prize: {
-        allowNull: false,
-        type: Sequelize.DECIMAL,
-      },
-      createdAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-        defaultValue: Sequelize.NOW,
-      },
-      priority: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-      },
-      orderId: {
-        allowNull: false,
-        type: Sequelize.STRING,
-      },
-      userId: {
-        allowNull: false,
-        type: Sequelize.INTEGER,
-        references: {
-          model: 'Users',
-          key: 'id',
+    return queryInterface
+      .createTable('Contests', {
+        id: {
+          allowNull: false,
+          autoIncrement: true,
+          primaryKey: true,
+          type: Sequelize.INTEGER
         },
-      },
-    });
+        userId: {
+          allowNull: false,
+          type: Sequelize.INTEGER,
+          references: {
+            model: 'Users',
+            key: 'id'
+          }
+        },
+        contestType: {
+          allowNull: false,
+          type: Sequelize.ENUM(...Object.values(CONTEST_TYPES))
+        },
+        fileName: {
+          type: Sequelize.STRING
+        },
+        originalFileName: {
+          type: Sequelize.STRING
+        },
+        title: {
+          type: Sequelize.STRING
+        },
+        typeOfName: {
+          type: Sequelize.STRING
+        },
+        industry: {
+          type: Sequelize.STRING
+        },
+        focusOfWork: {
+          type: Sequelize.TEXT
+        },
+        targetCustomer: {
+          type: Sequelize.TEXT
+        },
+        styleName: {
+          type: Sequelize.STRING
+        },
+        nameVenture: {
+          type: Sequelize.STRING
+        },
+        typeOfTagline: {
+          type: Sequelize.STRING
+        },
+        status: {
+          type: Sequelize.ENUM(...Object.values(CONTESTS_STATUSES)),
+          allowNull: false
+        },
+        brandStyle: {
+          type: Sequelize.STRING
+        },
+        prize: {
+          allowNull: false,
+          type: Sequelize.DECIMAL
+        },
+        priority: {
+          allowNull: false,
+          type: Sequelize.INTEGER
+        },
+        orderId: {
+          allowNull: false,
+          type: Sequelize.STRING
+        },
+        createdAt: {
+          type: Sequelize.DATE,
+          defaultValue: new Date()
+        },
+        updatedAt: {
+          type: Sequelize.DATE,
+          defaultValue: new Date()
+        }
+      })
+      .then(() =>
+        queryInterface.addConstraint('Contests', {
+          type: 'check',
+          fields: ['prize'],
+          where: {
+            prize: {
+              [Sequelize.Op.gte]: 0
+            }
+          }
+        })
+      );
   },
   down: (queryInterface, Sequelize) => {
     return queryInterface.dropTable('Contests');
-  },
+  }
 };
