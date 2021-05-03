@@ -32,9 +32,8 @@ const LoginForm = props => {
             clearAuth()
         }
     })
-    const onSubmit = (values, formikBag) => {
+    const onSubmit = (values) => {
         authActionLogin(values)
-        formikBag.resetForm();
     }
     return (
         <Formik
