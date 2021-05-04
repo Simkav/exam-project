@@ -8,7 +8,7 @@ import {
     changeContestViewMode,
     changeShowImage
 } from '../../actions/actionCreator';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import Header from "../../components/Header/Header";
 import ContestSideBar from '../../components/ContestSideBar/ContestSideBar';
 import styles from './ContestPage.module.sass';
@@ -37,8 +37,8 @@ class ContestPage extends React.Component {
 
 
     getData = () => {
-        const {params} = this.props.match;
-        this.props.getData({contestId: params.id});
+        const { params } = this.props.match;
+        this.props.getData({ contestId: params.id });
     };
 
 
@@ -64,7 +64,7 @@ class ContestPage extends React.Component {
 
     setOfferStatus = (creatorId, offerId, command) => {
         this.props.clearSetOfferStatusError();
-        const {id, orderId, priority} = this.props.contestByIdStore.contestData;
+        const { id, orderId, priority } = this.props.contestByIdStore.contestData;
         const obj = {
             command,
             offerId,
@@ -78,8 +78,8 @@ class ContestPage extends React.Component {
 
 
     findConversationInfo = (interlocutorId) => {
-        const {messagesPreview} = this.props.chatStore;
-        const {id} = this.props.auth.data;
+        const { messagesPreview } = this.props.chatStore;
+        const { id } = this.props.auth.data;
         const participants = [id, interlocutorId];
         participants.sort((participant1, participant2) => participant1 - participant2);
         for (let i = 0; i < messagesPreview.length; i++) {
@@ -96,7 +96,7 @@ class ContestPage extends React.Component {
     };
 
     goChat = () => {
-        const {User} = this.props.contestByIdStore.contestData;
+        const { User } = this.props.contestByIdStore.contestData;
         this.props.goToExpandedDialog({
             interlocutor: User,
             conversationData: this.findConversationInfo(User.id)
@@ -104,15 +104,32 @@ class ContestPage extends React.Component {
     };
 
     render() {
-        const {role} = this.props.auth.data;
-        const {contestByIdStore, changeShowImage, changeContestViewMode, getData, clearSetOfferStatusError} = this.props;
-        const {isShowOnFull, imagePath, error, isFetching, isBrief, contestData, offers, setOfferStatusError} = contestByIdStore;
+
+        const { role } = this.props.auth.data;
+        const {
+            contestByIdStore,
+            changeShowImage,
+            changeContestViewMode,
+            getData,
+            clearSetOfferStatusError
+        } = this.props;
+        const {
+            isShowOnFull,
+            imagePath,
+            error,
+            isFetching,
+            isBrief,
+            contestData,
+            offers,
+            setOfferStatusError
+        } = contestByIdStore;
+        console.log(role)
         return (
             <div>
                 {/*<Chat/>*/}
                 {isShowOnFull && <LightBox
                     mainSrc={`${CONSTANTS.publicURL}${imagePath}`}
-                    onCloseRequest={() => changeShowImage({isShowOnFull: false, imagePath: null})}
+                    onCloseRequest={() => changeShowImage({ isShowOnFull: false, imagePath: null })}
                 />}
                 <Header/>
                 {error ? <div className={styles.tryContainer}><TryAgain getData={getData}/></div> :
@@ -126,10 +143,11 @@ class ContestPage extends React.Component {
                                 <div className={styles.infoContainer}>
                                     <div className={styles.buttonsContainer}>
                         <span onClick={() => changeContestViewMode(true)}
-                              className={classNames(styles.btn, {[styles.activeBtn]: isBrief})}>Brief</span>
-                                        <span onClick={() => changeContestViewMode(false)}
-                                              className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
-                                    </div>
+                              className={classNames(styles.btn, { [styles.activeBtn]: isBrief })}>Brief</span>
+                                        {contestByIdStore.offers.length || role === CONSTANTS.CREATOR ?
+                                            <span onClick={() => changeContestViewMode(false)}
+                                                  className={classNames(styles.btn, { [styles.activeBtn]: !isBrief })}>Offer</span>
+                                            : <></>}</div>
                                     {
                                         isBrief ?
                                             <Brief contestData={contestData} role={role} goChat={this.goChat}/>
@@ -159,8 +177,8 @@ class ContestPage extends React.Component {
 
 
 const mapStateToProps = (state) => {
-    const {contestByIdStore, auth, chatStore} = state;
-    return {contestByIdStore, auth, chatStore};
+    const { contestByIdStore, auth, chatStore } = state;
+    return { contestByIdStore, auth, chatStore };
 };
 
 const mapDispatchToProps = (dispatch) => {
