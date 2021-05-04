@@ -104,6 +104,7 @@ class ContestPage extends React.Component {
     };
 
     render() {
+
         const {role} = this.props.auth.data;
         const {contestByIdStore, changeShowImage, changeContestViewMode, getData, clearSetOfferStatusError} = this.props;
         const {isShowOnFull, imagePath, error, isFetching, isBrief, contestData, offers, setOfferStatusError} = contestByIdStore;
@@ -127,9 +128,9 @@ class ContestPage extends React.Component {
                                     <div className={styles.buttonsContainer}>
                         <span onClick={() => changeContestViewMode(true)}
                               className={classNames(styles.btn, {[styles.activeBtn]: isBrief})}>Brief</span>
-                                        <span onClick={() => changeContestViewMode(false)}
-                                              className={classNames(styles.btn, {[styles.activeBtn]: !isBrief})}>Offer</span>
-                                    </div>
+                                        {contestByIdStore.offers.length ? <span onClick={() => changeContestViewMode(false)}
+                                               className={classNames(styles.btn, { [styles.activeBtn]: !isBrief })}>Offer</span>
+                                        : <></>}</div>
                                     {
                                         isBrief ?
                                             <Brief contestData={contestData} role={role} goChat={this.goChat}/>
