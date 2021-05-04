@@ -104,26 +104,9 @@ class ContestPage extends React.Component {
     };
 
     render() {
-
-        const { role } = this.props.auth.data;
-        const {
-            contestByIdStore,
-            changeShowImage,
-            changeContestViewMode,
-            getData,
-            clearSetOfferStatusError
-        } = this.props;
-        const {
-            isShowOnFull,
-            imagePath,
-            error,
-            isFetching,
-            isBrief,
-            contestData,
-            offers,
-            setOfferStatusError
-        } = contestByIdStore;
-        console.log(role)
+        const {role} = this.props.auth.data;
+        const {contestByIdStore, changeShowImage, changeContestViewMode, getData, clearSetOfferStatusError} = this.props;
+        const {isShowOnFull, imagePath, error, isFetching, isBrief, contestData, offers, setOfferStatusError} = contestByIdStore;
         return (
             <div>
                 {/*<Chat/>*/}
