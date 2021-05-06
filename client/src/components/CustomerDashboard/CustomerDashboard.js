@@ -1,12 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {getContestsForCustomer, clearContestList, setNewCustomerFilter} from '../../actions/actionCreator';
+import { connect } from 'react-redux';
+import { getContestsForCustomer, clearContestList, setNewCustomerFilter } from '../../actions/actionCreator';
 import CONSTANTS from '../../constants';
 import ContestsContainer from '../../components/ContestsContainer/ContestsContainer';
 import ContestBox from "../ContestBox/ContestBox";
 import styles from './CustomerDashboard.module.sass';
 import classNames from 'classnames';
 import TryAgain from '../../components/TryAgain/TryAgain';
+import { Link } from 'react-router-dom'
 
 
 class CustomerDashboard extends React.Component {
@@ -26,7 +27,7 @@ class CustomerDashboard extends React.Component {
     }
 
     getContests = () => {
-        this.props.getContests({limit: 8, contestStatus: this.props.customerFilter});
+        this.props.getContests({ limit: 8, contestStatus: this.props.customerFilter });
     };
 
 
@@ -43,7 +44,7 @@ class CustomerDashboard extends React.Component {
 
     setContestList = () => {
         const array = [];
-        const {contests} = this.props;
+        const { contests } = this.props;
         for (let i = 0; i < contests.length; i++) {
             array.push(<ContestBox data={contests[i]} key={contests[i].id}
                                    goToExtended={this.goToExtended}/>)
@@ -62,8 +63,8 @@ class CustomerDashboard extends React.Component {
     };
 
     render() {
-        const {error, haveMore} = this.props;
-        const {customerFilter} = this.props;
+        const { error, haveMore } = this.props;
+        const { customerFilter } = this.props;
         return (
             <div className={styles.mainContainer}>
                 <div className={styles.filterContainer}>
@@ -85,6 +86,7 @@ class CustomerDashboard extends React.Component {
                              [styles.filter]: CONSTANTS.CONTEST_STATUS_PENDING !== customerFilter
                          })}>Inactive contests
                     </div>
+                    <Link className={styles.transactionLink} to='/transactions'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}dollar-symbol.png`} alt='Transactions'/></Link>
                 </div>
                 <div className={styles.contestsContainer}>
                     {
