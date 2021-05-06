@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {Router, Route, Switch} from 'react-router-dom';
+import React, { Component } from 'react';
+import { Router, Route, Switch } from 'react-router-dom';
 import './App.css';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegistrationPage from './pages/RegistrationPage/RegistrationPage';
@@ -9,16 +9,16 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import PrivateHoc from './components/PrivateHoc/PrivateHoc';
 import NotFound from './components/NotFound/NotFound';
 import Home from './pages/Home/Home';
+import TransactionHistory from "./pages/TransactionsHistory/TransactionsHistory";
 import OnlyNotAuthorizedUserHoc from './components/OnlyNotAuthorizedUserHoc/OnlyNotAuthorizedUserHoc';
 import ContestPage from './pages/ContestPage/ContestPage';
 import UserProfile from './pages/UserProfile/UserProfile';
 import 'react-toastify/dist/ReactToastify.css';
-import {ToastContainer} from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import ContestCreationPage from './pages/ContestCreation/ContestCreationPage';
 import CONSTANTS from './constants';
 import browserHistory from './browserHistory';
 import ChatContainer from './components/Chat/ChatComponents/ChatContainer/ChatContainer';
-
 
 
 class App extends Component {
@@ -58,6 +58,7 @@ class App extends Component {
                                title: 'LOGO'
                            })}/>
                     <Route exact path='/dashboard' component={PrivateHoc(Dashboard)}/>
+                    <Route exact path='/transactions' component={PrivateHoc(TransactionHistory)}/>
                     <Route exact path='/contest/:id' component={PrivateHoc(ContestPage)}/>
                     <Route exact path='/account' component={PrivateHoc(UserProfile)}/>
                     <Route component={NotFound}/>
