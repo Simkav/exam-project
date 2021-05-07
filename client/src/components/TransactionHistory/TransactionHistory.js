@@ -1,20 +1,18 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import cx from 'classnames'
 import styles from './TransactionHistory.module.sass'
 import TableLi from './TransactionDataLi'
-//Template
-const data = [{ id: 1, type: "Receive", amount: 200 },
-    { id: 4, type: "Receive", amount: 2040 },
-    { id: 5, type: "Receive", amount: 20550 },
-    { id: 6, type: "Minus", amount: 2040 },
-    { id: 7, type: "Receive", amount: 26300 },
-    { id: 8, type: "Receive", amount: 2020 },
-    { id: 19, type: "Receive", amount: 2070 },
-    { id: 10, type: "Receive", amount: 2100 },]
+import * as ActionCreators from "../../actions/actionCreator";
 const TransactionHistory = () => {
-    // const { data } = useSelector(({ auth }) => auth)
-    // console.log(data)
+    useEffect(() => {
+        getTransactionsHistory()
+    }, [])
+    const dispatch = useDispatch()
+    const { data, error, isFetcing } = useSelector(({ transactions }) => transactions)
+    const { getTransactionsHistory } = bindActionCreators(ActionCreators, dispatch)
+    console.log(data)
     return (
         <div className={cx(styles.container)}>
             <ul className={cx(styles['responsive-table'])}>
@@ -23,9 +21,11 @@ const TransactionHistory = () => {
                     <div className={cx(styles.col, styles['col-2'])}>Type</div>
                     <div className={cx(styles.col, styles['col-3'])}>Amount</div>
                 </li>
-                {data.map((el) => {
-                    return <TableLi key={el.id} data={el}/>
-                })
+                {
+                    data.length ?
+                    data.map((el) => {
+                        return <TableLi key={el.id} data={el}/>
+                    }) : <div style={{ textAlign: "center"   }}>No history</div>
                 }
             </ul>
         </div>
