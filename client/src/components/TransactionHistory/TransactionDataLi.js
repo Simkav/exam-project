@@ -7,8 +7,8 @@ const TransactionDataLi = (props) => {
     return (
         <li className={cx(styles['table-row'])}>
             <div className={cx(styles.col, styles['col-1'])}>{data.id}</div>
-            <div className={cx(styles.col, styles['col-2'])}>{data.type}</div>
-            <div className={cx(styles.col, styles['col-3'])}>{data.amount}</div>
+            <div className={cx(styles.col, styles['col-2'])}>{data.operationType}</div>
+            <div className={cx(styles.col, styles['col-3'])}>{data.sum}</div>
         </li>
     )
 }
