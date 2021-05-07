@@ -5,15 +5,20 @@ import cx from 'classnames'
 import styles from './TransactionHistory.module.sass'
 import TableLi from './TransactionDataLi'
 import * as ActionCreators from "../../actions/actionCreator";
+
 const TransactionHistory = () => {
     useEffect(() => {
-        getTransactionsHistory()
+        getTransactionsInfo()
     }, [])
     const dispatch = useDispatch()
-    const { data, error, isFetcing } = useSelector(({ transactions }) => transactions)
-    const { getTransactionsHistory } = bindActionCreators(ActionCreators, dispatch)
+    const { data, error, isFetcing, totalFlow } = useSelector(({ transactions }) => transactions)
+    console.log(totalFlow, data)
+    const { getTransactionsInfo } = bindActionCreators(ActionCreators, dispatch)
     return (
         <div className={cx(styles.container)}>
+            {totalFlow.map((el)=>
+                 <div key={el[0]}>Total {el[0]} is {el[1]}</div>
+            )}
             <ul className={cx(styles['responsive-table'])}>
                 <li className={cx(styles['table-header'])}>
                     <div className={cx(styles.col, styles['col-1'])}>Id</div>
@@ -22,9 +27,8 @@ const TransactionHistory = () => {
                 </li>
                 {
                     data.length ?
-                    data.map((el) => {
-                        return <TableLi key={el.id} data={el}/>
-                    }) : <div style={{ textAlign: "center"   }}>No history</div>
+                        data.map((el) => <TableLi key={el.id} data={el}/>)
+                        : <div style={{ textAlign: "center", marginBottom: "20px" }}>No history</div>
                 }
             </ul>
         </div>

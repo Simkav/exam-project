@@ -437,8 +437,8 @@ export const changeModalShow=(data)=>{
     }
 };
 
-export const getTransactionsHistory=()=>{
+export const getTransactionsInfo=()=>{
     return{
-        type: ACTION.GET_TRANSACTION_HISTORY_REQUEST
+        type: ACTION.GET_TRANSACTION_INFO_REQUEST
     }
 }
