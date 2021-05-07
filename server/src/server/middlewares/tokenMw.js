@@ -20,7 +20,6 @@ module.exports.checkAccessToken = async (req, res, next) => {
     } = req;
     if (authorization) {
       const [, token] = authorization.split(' ');
-      console.log('token=>>>>',token);
       req.tokenData = await JwtService.verifyAccessToken(token);
       return next();
     }

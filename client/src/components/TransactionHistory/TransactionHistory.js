@@ -12,7 +12,6 @@ const TransactionHistory = () => {
     const dispatch = useDispatch()
     const { data, error, isFetcing } = useSelector(({ transactions }) => transactions)
     const { getTransactionsHistory } = bindActionCreators(ActionCreators, dispatch)
-    console.log(data)
     return (
         <div className={cx(styles.container)}>
             <ul className={cx(styles['responsive-table'])}>

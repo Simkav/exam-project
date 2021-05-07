@@ -39,11 +39,9 @@ export  function* updateContestSaga(action) {
 
 
 export  function* dataForContestSaga(action){
-    console.log(action)
     // yield put({type: ACTION.GET_DATA_FOR_CONTEST_ACTION_REQUEST});
     try{
         const {data} = yield restController.dataForContest(action.data);
-        console.log('saga',data);
         yield  put({type: ACTION.GET_DATA_FOR_CONTEST_ACTION_SUCCESS, data});
     }
     catch (e) {

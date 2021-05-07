@@ -1,7 +1,6 @@
 const { TokenExpiredError, JsonWebTokenError } = require('jsonwebtoken');
 
 module.exports = (err, req, res, next) => {
-  console.log('LOG ERROR=>>>>', err);
 
   if (err instanceof TokenExpiredError) {
     return res.status(419).send('Token expired');

@@ -17,7 +17,6 @@ module.exports.parseBody = (req, res, next) => {
 
 module.exports.canGetContest = async (req, res, next) => {
   let result = null;
-  console.log(req.tokenData);
   try {
     if (req.tokenData.role === CONSTANTS.ROLES.CUSTOMER) {
       result = await bd.Contest.findOne({
