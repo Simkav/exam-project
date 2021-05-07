@@ -3,6 +3,7 @@ import httpClient from '../interceptor';
 export const registerRequest = (data) => httpClient.post('auth/sign-up', data);
 export const loginRequest = (data) => httpClient.post('auth/sign-in', data);
 // export const getUser = () => httpClient.post('getUser');
+export const getTransactionHistory = () => httpClient.get('transactions/history')
 export const updateContest = data => httpClient.post('updateContest', data);
 export const setNewOffer = data => httpClient.post('setNewOffer', data);
 export const setOfferStatus = data => httpClient.post('setOfferStatus', data);
@@ -24,15 +25,15 @@ export const deleteCatalog = (data) => httpClient.post('deleteCatalog', data);
 export const removeChatFromCatalog = (data) => httpClient.post('removeChatFromCatalog', data);
 export const changeCatalogName = (data) => httpClient.post('updateNameCatalog', data);
 export const getCustomersContests = (data) => {
-    return httpClient.post('getCustomersContests', {limit: data.limit, offset: data.offset}, {
+    return httpClient.post('getCustomersContests', { limit: data.limit, offset: data.offset }, {
         headers: {
             status: data.contestStatus
         }
     });
 };
 
-export const getActiveContests = ({offset, limit, typeIndex, contestId, industry, awardSort, ownEntries}) => {
-    return httpClient.post('getAllContests', {offset, limit, typeIndex, contestId, industry, awardSort, ownEntries})
+export const getActiveContests = ({ offset, limit, typeIndex, contestId, industry, awardSort, ownEntries }) => {
+    return httpClient.post('getAllContests', { offset, limit, typeIndex, contestId, industry, awardSort, ownEntries })
 };
 
 export const getContestById = (data) => {
