@@ -197,6 +197,7 @@ module.exports.cashout = async (req, res, next) => {
     },
     transaction);
     transaction.commit();
+    await db.TransactionHistory.create({userId:req.tokenData.userId,operationType:"CONSUMPTION",sum:req.body.sum})
     res.send({ balance: updatedUser.balance });
   } catch (err) {
     transaction.rollback();

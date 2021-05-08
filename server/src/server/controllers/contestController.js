@@ -239,6 +239,9 @@ module.exports.setOfferStatus = async (req, res, next) => {
         req.body.priority,
         transaction
       );
+      const currentOffer = await db.Contest.findByPk(req.body.offerId)
+      const winningPrize = currentOffer.getDataValue('prize')
+      await db.TransactionHistory.create({userId:req.body.creatorId,operationType:"INCOME",sum:winningPrize})
       res.send(winningOffer);
     } catch (err) {
       console.log('>>>>>>>', err);
