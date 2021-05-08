@@ -16,7 +16,6 @@ const TransactionHistory = () => {
     }, [])
     const dispatch = useDispatch()
     const { data, error, isFetcing, totalFlow } = useSelector(({ transactions }) => transactions)
-    console.log(totalFlow, data)
     const { getTransactionsInfo } = bindActionCreators(ActionCreators, dispatch)
     return (
         <div className={cx(styles.container)}>
