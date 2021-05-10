@@ -1,5 +1,5 @@
 import React from 'react';
-import {withRouter} from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {
     getContestsForCreative,
@@ -14,6 +14,7 @@ import queryString from 'query-string';
 import classNames from 'classnames';
 import isEqual from 'lodash/isEqual';
 import TryAgain from '../../components/TryAgain/TryAgain';
+import CONSTANTS from "../../constants";
 
 
 const types = ['', 'name,tagline,logo', 'name', 'tagline', 'logo', 'name,tagline', 'logo,tagline', 'name,logo'];
@@ -185,6 +186,7 @@ class CreatorDashboard extends React.Component {
                                 <option value='asc'>Ascending</option>
                             </select>
                         </div>
+                        <Link className={styles.transactionLink} to='/transactions'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}dollar-symbol.png`} alt='Transactions'/></Link>
                     </div>
                 </div>
                 {
