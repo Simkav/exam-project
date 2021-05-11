@@ -6,10 +6,6 @@ import styles from './TransactionHistory.module.sass'
 import TableLi from './TransactionDataLi'
 import * as ActionCreators from "../../actions/actionCreator";
 
-const parseFlow = (totalFlow) => {
-
-}
-
 const TransactionHistory = () => {
     useEffect(() => {
         getTransactionsInfo()
@@ -26,17 +22,11 @@ const TransactionHistory = () => {
                     <div className={cx(styles.col, styles['col-3'])}>Amount</div>
                 </li>
                 {
-                    totalFlow.map((el) =>
-                        <li key={el[0]} className={cx(styles['table-row'])}>
-                            <div className={cx(styles.col, styles['col-1'])}>TOTAL</div>
-                            <div className={cx(styles.col, styles['col-2'])}>{el[0]}</div>
-                            <div className={cx(styles.col, styles['col-3'])}>{el[1]}</div>
-                        </li>
-                    )
+                    totalFlow.map((el) => <TableLi key={el[0]} data={["TOTAL",el[0],el[1]]}/>)
                 }
                 {
                     data.length ?
-                        data.map((el) => <TableLi key={el.id} data={el}/>)
+                        data.map((el) => <TableLi key={el.id} data={Object.values(el)}/>)
                         : <div style={{ textAlign: "center", marginBottom: "20px" }}>No history</div>
                 }
             </ul>
