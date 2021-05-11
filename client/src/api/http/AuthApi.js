@@ -1,4 +1,3 @@
-import axios from 'axios'
 import CONSTANTS from '../../constants'
 
 class AuthApi {
@@ -64,10 +63,10 @@ class AuthApi {
   }
 
   responseInterceptorError = async error => {
-    const { config } = error
+    const { config,response:{status} } = error
     console.dir(error)
     const refreshToken = window.localStorage.getItem(CONSTANTS.REFRESH_TOKEN)
-    if (error.response.status === 419 && refreshToken) {
+    if (status === 419 && refreshToken) {
       const {
         data: {
           data: { tokenPair }
