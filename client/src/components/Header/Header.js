@@ -21,7 +21,7 @@ class Header extends React.Component{
                 <>
                     <div className={styles.userInfo}>
                         <img
-                            src={this.props.user.avatar ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${this.props.user.avatar}`}
+                            src={this.props.user.avatar ? `${CONSTANTS.publicURL}${this.props.user.avatar}` : CONSTANTS.ANONYM_IMAGE_PATH}
                             alt='user'/>
                         <span>{`Hi, ${this.props.user.displayName}`}</span>
                         <img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
