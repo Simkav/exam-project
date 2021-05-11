@@ -1,6 +1,6 @@
 import { put } from 'redux-saga/effects';
 import ACTIONS from '../actions/actionTypes'
-import * as restController from '../api/rest/restController';
+import * as restController from '../api/http/restController';
 
 export function* getHistorySaga(action) {
     try {
