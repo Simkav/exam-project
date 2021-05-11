@@ -6,40 +6,32 @@ import CONSTANTS from '../../constants';
 import {clearUserStore, headerRequest} from '../../actions/actionCreator';
 
 
-class Header extends React.Component {
-    componentDidMount() {
-        if (!this.props.data) {
-            this.props.getUser();
-        }
-    }
-
-    logOut = () => {
-        localStorage.clear();
-        this.props.clearUserStore();
-        this.props.history.replace('/login');
-    };
+class Header extends React.Component{
+   logOut = () => {
+    this.props.clearUserStore();
+    this.props.history.replace('/login');
+  };
 
     startContests = () => {
         this.props.history.push('/startContest');
     };
     renderLoginButtons = () => {
-        if (this.props.data) {
+        if (this.props.user) {
             return (
                 <>
                     <div className={styles.userInfo}>
                         <img
-                            src={this.props.data.avatar === null ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${this.props.data.avatar}`}
+                            src={this.props.user.avatar ? CONSTANTS.ANONYM_IMAGE_PATH : `${CONSTANTS.publicURL}${this.props.user.avatar}`}
                             alt='user'/>
-                        <span>{`Hi, ${this.props.data.displayName}`}</span>
+                        <span>{`Hi, ${this.props.user.displayName}`}</span>
                         <img src={`${CONSTANTS.STATIC_IMAGES_PATH}menu-down.png`} alt='menu'/>
                         <ul>
                             <li><Link to='/dashboard'
-                                      style={{ textDecoration: 'none' }}><span>View Dashboard</span></Link></li>
-                            <li><Link to='/account' style={{ textDecoration: 'none' }}><span>My Account</span></Link>
-                            </li>
+                                      style={{textDecoration: 'none'}}><span>View Dashboard</span></Link></li>
+                            <li><Link to='/account' style={{textDecoration: 'none'}}><span>My Account</span></Link></li>
                             <li><Link to='http:/www.google.com'
-                                      style={{ textDecoration: 'none' }}><span>Messages</span></Link></li>
-                            <li><Link to='http:/www.google.com' style={{ textDecoration: 'none' }}><span>Affiliate Dashboard</span></Link>
+                                      style={{textDecoration: 'none'}}><span>Messages</span></Link></li>
+                            <li><Link to='http:/www.google.com' style={{textDecoration: 'none'}}><span>Affiliate Dashboard</span></Link>
                             </li>
                             <li><span onClick={this.logOut}>Logout</span></li>
                         </ul>
@@ -81,8 +73,7 @@ class Header extends React.Component {
                     </div>
                 </div>
                 <div className={styles.navContainer}>
-                    <Link to="/"><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo}
-                                      alt='blue_logo'/></Link>
+                    <Link to="/"><img src={`${CONSTANTS.STATIC_IMAGES_PATH}blue-logo.png`} className={styles.logo} alt='blue_logo'/></Link>
                     <div className={styles.leftNav}>
                         <div className={styles.nav}>
                             <ul>
@@ -152,7 +143,7 @@ class Header extends React.Component {
                                 </li>
                             </ul>
                         </div>
-                        {this.props.data && this.props.data.role !== CONSTANTS.CREATOR &&
+                        {this.props.user && this.props.user.role !== CONSTANTS.CREATOR &&
                         <div className={styles.startContestBtn} onClick={this.startContests}>START CONTEST</div>}
                     </div>
                 </div>
@@ -165,11 +156,10 @@ const mapStateToProps = (state) => {
   return state.auth;
 };
 const mapDispatchToProps = (dispatch) => {
-        return {
-            getUser: () => dispatch(headerRequest()),
-            clearUserStore: () => dispatch(clearUserStore()),
-        };
-    }
-;
+  return {
+    getUser: () => dispatch(headerRequest()),
+    clearUserStore: () => dispatch(clearUserStore()),
+  };
+};
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
