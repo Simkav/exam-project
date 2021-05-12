@@ -1,12 +1,12 @@
-const { User, TransactionHistory, sequelize } = require('../models/index');
+const { TransactionHistory, sequelize } = require('../models/index');
 const createHttpError = require('http-errors');
 
 module.exports.getFullTransactionsHistory = async (req, res, next) => {
     try {
         const { tokenData: { userId } } = req
-        const userInstance = await User.findByPk(userId)
-        const history = await userInstance.getTransactionHistories({ attributes: { exclude: ['userId'] } })
-        const flow = await userInstance.getTransactionHistories({
+        const history = await TransactionHistory.findAll({ where: { userId }, attributes: { exclude: ['userId'] } })
+        const flow = await TransactionHistory.findAll({
+            where: { userId },
             group: 'operationType',
             attributes: {
                 exclude: ['userId', 'id', 'createdAt', 'updatedAt', 'sum'],
@@ -25,8 +25,7 @@ module.exports.getFullTransactionsHistory = async (req, res, next) => {
 module.exports.getTransactionsHistory = async (req, res, next) => {
     try {
         const { tokenData: { userId } } = req
-        const userInstance = await User.findByPk(userId)
-        const history = await userInstance.getTransactionHistories({ attributes: { exclude: ['userId'] } })
+        const history = await TransactionHistory.findAll({ where: { userId }, attributes: { exclude: ['userId'] } })
         res.send({ data: { history } })
     } catch (err) {
         console.log(err)
@@ -36,8 +35,8 @@ module.exports.getTransactionsHistory = async (req, res, next) => {
 module.exports.getTotalMoneyFlow = async (req, res, next) => {
     try {
         const { tokenData: { userId } } = req
-        const userInstance = await User.findByPk(userId)
-        const flow = await userInstance.getTransactionHistories({
+        const flow = await TransactionHistory.findAll({
+            where: { userId },
             group: 'operationType',
             attributes: {
                 exclude: ['userId', 'id', 'createdAt', 'updatedAt', 'sum'],
