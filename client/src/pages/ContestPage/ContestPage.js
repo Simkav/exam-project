@@ -127,7 +127,7 @@ class ContestPage extends React.Component {
                                     <div className={styles.buttonsContainer}>
                         <span onClick={() => changeContestViewMode(true)}
                               className={classNames(styles.btn, { [styles.activeBtn]: isBrief })}>Brief</span>
-                                        {contestByIdStore.offers.length || role === CONSTANTS.CREATOR ?
+                                        {offers.length || role === CONSTANTS.CREATOR ?
                                             <span onClick={() => changeContestViewMode(false)}
                                                   className={classNames(styles.btn, { [styles.activeBtn]: !isBrief })}>Offer</span>
                                             : <></>}</div>
