@@ -7,13 +7,9 @@ import {clearUserStore, headerRequest} from '../../actions/actionCreator';
 
 
 class Header extends React.Component{
-   logOut = () => {
-    this.props.clearUserStore();
-    this.props.history.replace('/login');
-  };
-
-    startContests = () => {
-        this.props.history.push('/startContest');
+    logOut = () => {
+        this.props.clearUserStore();
+        this.props.history.replace('/login');
     };
     renderLoginButtons = () => {
         if (this.props.user) {
@@ -144,7 +140,9 @@ class Header extends React.Component{
                             </ul>
                         </div>
                         {this.props.user && this.props.user.role !== CONSTANTS.CREATOR &&
-                        <div className={styles.startContestBtn} onClick={this.startContests}>START CONTEST</div>}
+                        <div className={styles.startContestBtn}>
+                            <Link to='/startContest'>START CONTEST</Link>
+                        </div>}
                     </div>
                 </div>
             </div>
@@ -157,7 +155,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    getUser: () => dispatch(headerRequest()),
     clearUserStore: () => dispatch(clearUserStore()),
   };
 };

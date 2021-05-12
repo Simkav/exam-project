@@ -45,7 +45,6 @@ export  function* dataForContestSaga(action){
         yield  put({type: ACTION.GET_DATA_FOR_CONTEST_ACTION_SUCCESS, data});
     }
     catch (e) {
-        console.log('ERROR',e)
         yield put({type: ACTION.GET_DATA_FOR_CONTEST_ACTION_ERROR, error: e.response});
     }
 }

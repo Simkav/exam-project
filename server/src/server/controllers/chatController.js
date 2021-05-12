@@ -175,7 +175,6 @@ module.exports.getPreview = async (req, res, next) => {
     });
     res.send(conversations);
   } catch (err) {
-    console.log('chat error', err)
     next(err);
   }
 };
