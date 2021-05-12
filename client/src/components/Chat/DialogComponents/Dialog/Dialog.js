@@ -5,7 +5,7 @@ import ChatHeader from '../../ChatComponents/ChatHeader/ChatHeader';
 import moment from 'moment';
 import className from 'classnames';
 import styles from './Dialog.module.sass';
-import ChatInput from '../../ChatComponents/ChatInut/ChatInput';
+import ChatInput from '../../ChatComponents/ChatInput/ChatInput';
 
 
 class Dialog extends React.Component {
