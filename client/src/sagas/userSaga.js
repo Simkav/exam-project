@@ -1,6 +1,6 @@
 import {put} from 'redux-saga/effects';
 import ACTION from '../actions/actionTypes';
-import * as restController from '../api/http/restController';
+import {user} from '../api/http';
 
 export  function* updateUserData(action){
     try{
