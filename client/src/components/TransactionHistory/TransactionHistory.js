@@ -19,11 +19,7 @@ const TransactionHistory = () => {
         <div className={cx(styles.container)}>
             {isFetching ? <Spinner/> :
                 <ul className={cx(styles['responsive-table'])}>
-                    <li className={cx(styles['table-header'])}>
-                        <div className={cx(styles.col, styles['col-1'])}>Id</div>
-                        <div className={cx(styles.col, styles['col-2'])}>Type</div>
-                        <div className={cx(styles.col, styles['col-3'])}>Amount</div>
-                    </li>
+                    <TableLi liStyle='table-header' data={["id", 'Amount', 'Type']}/>
                     {
                         totalFlow.map((el) => <TableLi key={el[0]} data={["TOTAL", el[1], el[0]]}/>)
                     }
@@ -32,7 +28,8 @@ const TransactionHistory = () => {
                             data.map((el) => <TableLi key={el.id} data={Object.values(el)}/>)
                             : <div style={{ textAlign: "center", marginBottom: "20px" }}>No history</div>
                     }
-                </ul>}
+                </ul>
+            }
         </div>
 
     )
