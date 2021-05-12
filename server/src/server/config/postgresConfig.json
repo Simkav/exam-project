@@ -6,7 +6,7 @@
     "host": "db-dev",
     "dialect": "postgres",
     "operatorsAliases": "Op",
-    "seedersStorage": "sequelize",
+    "seederStorage": "sequelize",
     "migrationStorage": "sequelize"
   },
   "test": {},
