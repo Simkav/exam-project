@@ -5,7 +5,6 @@ import styles from './TransactionHistory.module.sass'
 import TableLi from './TransactionDataLi'
 import * as ActionCreators from "../../actions/actionCreator";
 import Spinner from "../Spinner/Spinner";
-import constants from "../../constants";
 
 const TransactionHistory = () => {
     useEffect(() => {
