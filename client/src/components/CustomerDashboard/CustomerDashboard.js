@@ -86,7 +86,6 @@ class CustomerDashboard extends React.Component {
                              [styles.filter]: CONSTANTS.CONTEST_STATUS_PENDING !== customerFilter
                          })}>Inactive contests
                     </div>
-                    <Link className={styles.transactionLink} to='/transactions'><img src={`${CONSTANTS.STATIC_IMAGES_PATH}dollar-symbol.png`} alt='Transactions'/></Link>
                 </div>
                 <div className={styles.contestsContainer}>
                     {

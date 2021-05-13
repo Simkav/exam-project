@@ -61,7 +61,7 @@ function App() {
                     path='/startContest'
                     component={StartContestPage}
                 />
-                <PrivateRoute exact path='/transactions' roles={['customer', 'creator']}
+                <PrivateRoute exact path='/transactions' roles={['creator']}
                               component={TransactionHistory}/>
 
                 <PrivateRoute
