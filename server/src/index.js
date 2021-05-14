@@ -5,7 +5,7 @@ require('dotenv').config();
 require('./server/dbMongo/mongoose');
 const router = require('./server/router');
 const controller = require('./socketInit');
-const handlerError = require('./server/handlerError/handler');
+const ErrorHandlers = require('./server/handlerError/handler');
 
 const PORT = process.env.PORT || 3000;
 const app = express();
@@ -14,7 +14,9 @@ app.use(cors());
 app.use(express.json());
 app.use('/public', express.static('public'));
 app.use('/api', router);
-app.use(handlerError);
+
+app.use(ErrorHandlers.tokenErrorHandler)
+app.use(ErrorHandlers.basicErrorHandler);
 
 const server = http.createServer(app);
 

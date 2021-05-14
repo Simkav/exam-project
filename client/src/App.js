@@ -10,10 +10,8 @@ import Payment from './pages/Payment/Payment'
 import StartContestPage from './pages/StartContestPage/StartContestPage'
 import Dashboard from './pages/Dashboard/Dashboard'
 import TransactionHistory from "./pages/TransactionsHistory/TransactionsHistory";
-import PrivateHoc from './components/PrivateHoc/PrivateHoc'
 import NotFound from './components/NotFound/NotFound'
 import Home from './pages/Home/Home'
-import OnlyNotAuthorizedUserHoc from './components/OnlyNotAuthorizedUserHoc/OnlyNotAuthorizedUserHoc'
 import ContestPage from './pages/ContestPage/ContestPage'
 import UserProfile from './pages/UserProfile/UserProfile'
 import ContestCreationPage from './pages/ContestCreation/ContestCreationPage'
@@ -63,7 +61,7 @@ function App() {
                     path='/startContest'
                     component={StartContestPage}
                 />
-                <PrivateRoute exact path='/transactions' roles={['customer', 'creator']}
+                <PrivateRoute exact path='/transactions' roles={['creator']}
                               component={TransactionHistory}/>
 
                 <PrivateRoute

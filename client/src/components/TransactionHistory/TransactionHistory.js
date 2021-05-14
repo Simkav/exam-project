@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import cx from 'classnames'
 import styles from './TransactionHistory.module.sass'
 import TableLi from './TransactionDataLi'
 import * as ActionCreators from "../../actions/actionCreator";
@@ -16,17 +15,17 @@ const TransactionHistory = () => {
     const { getTransactionsInfo } = bindActionCreators(ActionCreators, dispatch)
     return (
 
-        <div className={cx(styles.container)}>
+        <div className={styles.container}>
             {isFetching ? <Spinner/> :
-                <ul className={cx(styles['responsive-table'])}>
-                    <TableLi liStyle='table-header' data={["id", 'Amount', 'Type']}/>
+                <ul className={styles.responsiveTable}>
+                    <TableLi liStyle={styles.tableHeader} data={["id", 'Amount', 'Type']}/>
                     {
-                        totalFlow.map((el) => <TableLi key={el[0]} data={["TOTAL", el[1], el[0]]}/>)
+                        totalFlow.map((el) => <TableLi key={el[0]} data={["TOTAL", el[0], el[1]]}/>)
                     }
                     {
                         data.length ?
-                            data.map((el) => <TableLi key={el.id} data={Object.values(el)}/>)
-                            : <div style={{ textAlign: "center", marginBottom: "20px" }}>No history</div>
+                            data.map((el) => <TableLi key={el.id} data={[el.id,el.operationType,el.sum]}/>)
+                            : <div className={styles.noHistoryDiv}>No history</div>
                     }
                 </ul>
             }
