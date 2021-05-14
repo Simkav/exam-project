@@ -9,6 +9,14 @@
     "seederStorage": "sequelize",
     "migrationStorage": "sequelize"
   },
-  "test": {},
+  "test": {
+    "username": "postgres",
+    "password": "password",
+    "database": "todo-dev",
+    "host": "localhost",
+    "dialect": "postgres",
+    "operatorsAliases": "Op",
+    "seederStorage": "sequelize",
+    "migrationStorage": "sequelize"},
   "production": {}
 }

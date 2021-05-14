@@ -6,17 +6,10 @@ require('./server/dbMongo/mongoose');
 const router = require('./server/router');
 const controller = require('./socketInit');
 const ErrorHandlers = require('./server/handlerError/handler');
-
+const createApp = require('./app')
 const PORT = process.env.PORT || 3000;
-const app = express();
 
-app.use(cors());
-app.use(express.json());
-app.use('/public', express.static('public'));
-app.use('/api', router);
-
-app.use(ErrorHandlers.tokenErrorHandler)
-app.use(ErrorHandlers.basicErrorHandler);
+const app = createApp()
 
 const server = http.createServer(app);
 

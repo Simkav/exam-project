@@ -1,4 +1,5 @@
 const { TokenExpiredError, JsonWebTokenError } = require('jsonwebtoken');
+const {UniqueConstraintError} = require('sequelize')
 
 module.exports.tokenErrorHandler = (err, req, res, next) =>{
  if (err instanceof TokenExpiredError) {
@@ -13,6 +14,9 @@ module.exports.tokenErrorHandler = (err, req, res, next) =>{
 }
 
 module.exports.sequelizeErrorHandler = () =>{
+  if(err instanceof UniqueConstraintError){
+    return res.status(409).send('Unique constraint didnt pass')
+  }
 
 }
 

@@ -28,7 +28,7 @@ module.exports.signUp = async (req, res, next) => {
     const user = await User.create(body);
     if (user) {
       const data = await AuthService.createSession(user);
-      return res.send({ data });
+      return res.status(201).send({ data });
     }
   } catch (error) {
     next(error);
