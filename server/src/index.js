@@ -1,3 +1,4 @@
+const http = require('http')
 require('./server/dbMongo/mongoose');
 const controller = require('./socketInit');
 const createApp = require('./app')
