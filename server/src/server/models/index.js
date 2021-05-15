@@ -4,9 +4,6 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-if(process.env.NODE_ENV==='test'){
-  require('dotenv').config();
-}
 const configPath = path.join(__dirname, '..', '/config/postgresConfig.json');
 const config = require(configPath)[env];
 

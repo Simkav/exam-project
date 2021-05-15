@@ -1,6 +1,5 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
 const router = require('./server/router');
 const ErrorHandlers = require('./server/handlerError/handler');
 
