@@ -6,7 +6,7 @@
     "start": "nodemon --inspect=0.0.0.0:9229 ./src/index.js",
     "test": "semistandard --verbose | snazzy",
     "fix": "semistandard --fix",
-    "jest":"jest"
+    "jest": "jest"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
