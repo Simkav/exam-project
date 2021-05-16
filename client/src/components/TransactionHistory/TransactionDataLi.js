@@ -3,12 +3,12 @@ import styles from "./TransactionHistory.module.sass";
 import cx from 'classnames'
 
 const TransactionDataLi = (props) => {
-    const { data, liStyle = styles.tableRow } = props
+    const { values, liStyle = styles.tableRow } = props
     return (
         <li className={liStyle}>
-            <div className={cx(styles.col, styles.col1)}>{data[0]}</div>
-            <div className={cx(styles.col, styles.col2)}>{data[1]}</div>
-            <div className={cx(styles.col, styles.col3)}>{data[2]}</div>
+            <div className={cx(styles.col, styles.col1)}>{values.id}</div>
+            <div className={cx(styles.col, styles.col2)}>{values.operationType}</div>
+            <div className={cx(styles.col, styles.col3)}>{values.sum}</div>
         </li>
     )
 }
