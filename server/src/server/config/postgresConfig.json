@@ -12,7 +12,7 @@
   "test": {
     "username": "postgres",
     "password": "password",
-    "database": "todo-dev",
+    "database": "todo-dev-test",
     "host": "localhost",
     "dialect": "postgres",
     "operatorsAliases": "Op",
